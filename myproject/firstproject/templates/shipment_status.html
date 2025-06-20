@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  .shipment-container {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: #f7f9ff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(92, 77, 177, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #3b3f72;
+  }
+  h1 {
+    text-align: center;
+    color: #5c4db1;
+    font-weight: 900;
+    margin-bottom: 2rem;
+  }
+  .shipment-info {
+    font-size: 1.15rem;
+    line-height: 1.6;
+  }
+  .shipment-info strong {
+    color: #764ba2;
+  }
+  .status {
+    font-weight: 700;
+    color: #4b3f8a;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+  }
+</style>
+
+<div class="shipment-container">
+  <h1>Статус доставки заказа №{{ order.id }}</h1>
+  <div class="shipment-info">
+    <p><strong>Адрес доставки:</strong> {{ shipment.address }}</p>
+    <p><strong>Дата отправки:</strong>
+      {% if shipment.shipped_date %}
+        {{ shipment.shipped_date|date:"d.m.Y H:i" }}
+      {% else %}
+        Отправка ещё не произведена
+      {% endif %}
+    </p>
+    <p class="status"><strong>Статус доставки:</strong> {{ shipment.get_delivery_status_display }}</p>
+  </div>
+  <a href="{% url 'client_history' %}" class="btn btn-secondary mt-4">Вернуться в историю заказов</a>
+</div>
+{% endblock %}

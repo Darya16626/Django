@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  body, .client-card {
+    background: linear-gradient(135deg, #c3cfe2 0%, #a1c4fd 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #3a3a6e;
+  }
+  .client-card {
+    background: #fff;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.18);
+    padding: 3rem 2.5rem 2.5rem 2.5rem;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    margin: 3rem auto;
+    animation: fadeIn 1s cubic-bezier(.4,0,.2,1);
+  }
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(30px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  .client-title {
+    font-weight: 700;
+    font-size: 2.1rem;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1.2rem;
+  }
+  .client-text {
+    font-size: 1.15rem;
+    color: #5a5fbb;
+    margin-bottom: 2.1rem;
+  }
+  .btn-catalog, .btn-history {
+    font-size: 1.1rem;
+    padding: 0.7rem 2.2rem;
+    border-radius: 2rem;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(118,75,162,0.10);
+    transition: background 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 1rem;
+    margin-right: 0.5rem;
+  }
+  .btn-catalog:hover, .btn-history:hover {
+    background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
+    box-shadow: 0 8px 24px rgba(118,75,162,0.18);
+    color: #fff;
+    text-decoration: none;
+  }
+  .btn-logout {
+    font-size: 1.1rem;
+    padding: 0.7rem 2.2rem;
+    border-radius: 2rem;
+    background: #e74c3c;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(231,76,60,0.10);
+    transition: background 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 0.5rem;
+  }
+  .btn-logout:hover {
+    background: #c0392b;
+    box-shadow: 0 8px 24px rgba(192,57,43,0.18);
+    color: #fff;
+    text-decoration: none;
+  }
+  .footer {
+    margin-top: 2rem;
+    color: #aab3d6;
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+    user-select: none;
+  }
+</style>
+
+<div class="client-card">
+  <div class="client-title">Добро пожаловать, {{ user.username }}!</div>
+  <div class="client-text">
+    Рады видеть вас в Магазине Антистрессов.<br>Желаем приятных покупок и отличного настроения!
+  </div>
+  <a href="{% url 'client_product_list' %}" class="btn-catalog">Перейти в каталог товаров</a>
+  <a href="{% url 'client_history' %}" class="btn-history">История действий</a><br />
+  <a href="{% if request.META.HTTP_REFERER %}{{ request.META.HTTP_REFERER }}{% else %}{% url 'clients_view' %}{% endif %}" class="btn-logout">Выйти</a>
+  <div class="footer mt-4">&copy; 2025 Магазин Антистрессов</div>
+</div>
+{% endblock %}

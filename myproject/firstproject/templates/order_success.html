@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  .thank-you {
+    background: linear-gradient(135deg, #c3cfe2 0%, #a1c4fd 100%);
+    border-radius: 1.5rem;
+    padding: 3rem 2rem;
+    max-width: 600px;
+    margin: 5rem auto;
+    box-shadow: 0 10px 30px rgba(118, 75, 162, 0.3);
+    color: #3a3a6e;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+  }
+  .thank-you h1 {
+    font-weight: 800;
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    color: #5c4db1;
+  }
+  .thank-you p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    color: #6b6f9c;
+  }
+  .btn-primary {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    font-weight: 700;
+    border-radius: 50px;
+    padding: 0.7rem 2rem;
+    font-size: 1.2rem;
+    box-shadow: 0 6px 20px rgba(118, 75, 162, 0.5);
+    transition: background-color 0.3s ease;
+    color: #fff;
+    text-decoration: none;
+  }
+  .btn-primary:hover {
+    background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
+    color: #fff;
+  }
+</style>
+
+<div class="thank-you">
+  <h1>Спасибо за заказ!</h1>
+  <p>Мы получили ваш заказ и скоро свяжемся с вами для подтверждения.</p>
+  <a href="{% url 'client_product_list' %}" class="btn-primary">Вернуться в каталог</a>
+</div>
+{% endblock %}

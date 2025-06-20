@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  /* Ваш CSS из запроса */
+</style>
+
+<div class="checkout-container">
+  <h1>Оформление заказа</h1>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="mb-3">
+      {{ form.address.label_tag }}
+      {{ form.address }}
+      {{ form.address.errors }}
+    </div>
+    <div class="mb-3">
+      {{ form.phone.label_tag }}
+      {{ form.phone }}
+      {{ form.phone.errors }}
+    </div>
+    <div class="mb-3">
+      {{ form.payment_method.label_tag }}
+      {{ form.payment_method }}
+      {{ form.payment_method.errors }}
+    </div>
+    <div class="form-buttons">
+      <button type="submit" class="btn btn-success">Подтвердить заказ</button>
+      <a href="{% url 'cart' %}" class="btn btn-secondary">Вернуться в корзину</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

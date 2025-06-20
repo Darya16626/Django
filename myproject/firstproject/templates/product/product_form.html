@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% if form.instance.pk %}Редактирование{% else %}Добавление{% endif %} товара - Магазин Антистрессов</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #d9e8ff 0%, #b0c7ff 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #4b4b7a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    nav.navbar {
+      background-color: #6a5acd;
+      box-shadow: 0 3px 10px rgba(106, 90, 205, 0.4);
+    }
+    nav.navbar .navbar-brand {
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: #e0e6ff;
+      letter-spacing: 1.2px;
+      user-select: none;
+    }
+    nav.navbar .btn-outline-light {
+      border-color: #e0e6ff;
+      color: #e0e6ff;
+      font-weight: 600;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    nav.navbar .btn-outline-light:hover {
+      background-color: #e0e6ff;
+      color: #6a5acd;
+    }
+    main.container {
+      flex-grow: 1;
+      max-width: 600px;
+      background: #f9fbff;
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 30px rgba(106, 90, 205, 0.15);
+      margin: 3rem auto;
+      padding: 3rem 3.5rem;
+    }
+    h1 {
+      font-weight: 800;
+      font-size: 2.2rem;
+      margin-bottom: 2.5rem;
+      color: #6a5acd;
+      user-select: none;
+      text-align: center;
+    }
+    form label {
+      font-weight: 600;
+      color: #4a4a7a;
+    }
+    form input, form textarea, form select {
+      border-radius: 0.6rem;
+      border: 1.5px solid #c0c9f9;
+      padding: 0.6rem 1rem;
+      font-size: 1.05rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      width: 100%;
+      box-sizing: border-box;
+      background-color: #f0f4ff;
+      color: #3a3a6e;
+      resize: vertical;
+    }
+    form input:focus, form textarea:focus, form select:focus {
+      border-color: #7b68ee;
+      outline: none;
+      box-shadow: 0 0 12px rgba(123, 104, 238, 0.5);
+      background-color: #fff;
+    }
+    .form-check-label {
+      color: #4a4a7a;
+      font-weight: 600;
+    }
+    .text-danger {
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+    }
+    button.btn-success {
+      width: 100%;
+      font-weight: 700;
+      padding: 0.85rem;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #7b68ee 0%, #6a5acd 100%);
+      border: none;
+      color: #fff;
+      box-shadow: 0 8px 25px rgba(106, 90, 205, 0.5);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    button.btn-success:hover {
+      background: linear-gradient(90deg, #5a4d9f 0%, #4b3f8a 100%);
+      box-shadow: 0 10px 30px rgba(75, 63, 138, 0.7);
+    }
+    a.btn-secondary {
+      margin-top: 1.5rem;
+      display: inline-block;
+      font-weight: 600;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      border-radius: 50px;
+      padding: 0.7rem 2rem;
+      color: #6a5acd;
+      border: 2px solid #6a5acd;
+      text-decoration: none;
+      text-align: center;
+    }
+    a.btn-secondary:hover {
+      background-color: #6a5acd;
+      color: #fff;
+      text-decoration: none;
+    }
+    footer {
+      background-color: #6a5acd;
+      color: #e0e6ff;
+      text-align: center;
+      padding: 1rem 0;
+      font-weight: 600;
+      user-select: none;
+      margin-top: auto;
+      box-shadow: 0 -4px 12px rgba(106, 90, 205, 0.4);
+    }
+    @media (max-width: 576px) {
+      main.container {
+        margin: 1.5rem 1rem;
+        padding: 2.5rem 2rem;
+      }
+      h1 {
+        font-size: 1.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'product_list' %}">Магазин Антистрессов</a>
+      <div>
+        <a href="{% url 'product_list' %}" class="btn btn-outline-light me-2">Каталог</a>
+        <a href="{% url 'product_create' %}" class="btn btn-outline-light">Добавить товар</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container" role="main">
+    <h1>{% if form.instance.pk %}Редактирование{% else %}Добавление{% endif %} товара</h1>
+    <form method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      <div class="mb-3">
+        {{ form.name.label_tag }} {{ form.name }}
+        {% if form.name.errors %}<div class="text-danger">{{ form.name.errors }}</div>{% endif %}
+      </div>
+      <div class="mb-3">
+        {{ form.description.label_tag }} {{ form.description }}
+        {% if form.description.errors %}<div class="text-danger">{{ form.description.errors }}</div>{% endif %}
+      </div>
+      <div class="mb-3">
+        {{ form.price.label_tag }} {{ form.price }}
+        {% if form.price.errors %}<div class="text-danger">{{ form.price.errors }}</div>{% endif %}
+      </div>
+      <div class="mb-3">
+        {{ form.color.label_tag }} {{ form.color }}
+        {% if form.color.errors %}<div class="text-danger">{{ form.color.errors }}</div>{% endif %}
+      </div>
+      <div class="mb-3">
+        {{ form.photo.label_tag }} {{ form.photo }}
+        {% if form.photo.errors %}<div class="text-danger">{{ form.photo.errors }}</div>{% endif %}
+      </div>
+      <div class="form-check mb-3">
+        {{ form.is_available }} {{ form.is_available.label_tag }}
+        {% if form.is_available.errors %}<div class="text-danger">{{ form.is_available.errors }}</div>{% endif %}
+      </div>
+      <div class="mb-3">
+        {{ form.category.label_tag }} {{ form.category }}
+        {% if form.category.errors %}<div class="text-danger">{{ form.category.errors }}</div>{% endif %}
+      </div>
+      <div class="mb-3">
+        <label>Коллекции</label>
+        {{ form.collections }}
+        {% if form.collections.errors %}<div class="text-danger">{{ form.collections.errors }}</div>{% endif %}
+      </div>
+      <button type="submit" class="btn btn-success">Сохранить</button>
+      <a href="{% url 'product_list' %}" class="btn btn-secondary ms-2">Отмена</a>
+    </form>
+  </main>
+
+  <footer>&copy; 2025 Магазин Антистрессов. Все права защищены.</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

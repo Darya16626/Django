@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Вход</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #6a82fb, #fc5c7d, #667eea);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #f0f0f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .auth-card {
+            background: rgba(30, 30, 60, 0.85);
+            border-radius: 15px;
+            padding: 30px 40px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.6);
+            backdrop-filter: blur(10px);
+        }
+        .auth-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #c3c6ff;
+            text-shadow: 0 0 8px #8a8fff;
+        }
+        form label {
+            color: #b0b3ff;
+            font-weight: 600;
+        }
+        .form-control {
+            background: #2e2e5c;
+            border: none;
+            color: #d0d4ff;
+            box-shadow: inset 0 0 5px #667eea;
+            transition: 0.3s;
+        }
+        .form-control:focus {
+            background: #45478f;
+            color: #fff;
+            box-shadow: 0 0 8px #8a8fff;
+            border: none;
+            outline: none;
+        }
+        .btn-primary {
+            background: #667eea;
+            border: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px #667eea;
+            transition: background 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: #5563c1;
+            box-shadow: 0 6px 20px #5563c1;
+        }
+        .alert-danger {
+            background-color: #b34747;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 0 10px #b34747;
+        }
+        .auth-link {
+            color: #aab2ff;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .auth-link:hover {
+            color: #d0d4ff;
+            text-decoration: underline;
+        }
+        p.mt-4 {
+            font-size: 0.9rem;
+            color: #c3c6ff;
+        }
+        .admin-link {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            color: #aab2ff;
+            font-weight: 600;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .admin-link:hover {
+            color: #d0d4ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-card mx-auto">
+        <div class="auth-title">Вход</div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary w-100 mt-2">Войти</button>
+        </form>
+        <p class="mt-4 text-center">
+            Нет аккаунта?
+            <a href="{% url 'register' %}" class="auth-link">Зарегистрироваться</a>
+        </p>
+        <a href="{% url 'info_view' %}" class="admin-link">Перейти на страницу админа</a>
+    </div>
+</body>
+</html>

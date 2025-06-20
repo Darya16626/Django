@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  body, .history-container {
+    background: linear-gradient(135deg, #c3cfe2 0%, #a1c4fd 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #3a3a6e;
+  }
+  .history-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    background: #fff;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.18);
+    padding: 2rem 2.5rem;
+  }
+  h2 {
+    color: #5c4db1;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    user-select: none;
+    text-align: center;
+  }
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.75rem;
+  }
+  thead th {
+    color: #764ba2;
+    font-weight: 700;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid #7b68ee;
+    user-select: none;
+  }
+  tbody tr {
+    background: #f7f9ff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(123, 104, 238, 0.15);
+  }
+  tbody td {
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+    color: #4b4f7a;
+  }
+  tbody tr:hover {
+    background: #e0e7ff;
+  }
+  .btn-back, .btn-logout {
+    font-size: 1.1rem;
+    padding: 0.6rem 2rem;
+    border-radius: 2rem;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(118,75,162,0.10);
+    transition: background 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 1.5rem;
+    margin-right: 1rem;
+  }
+  .btn-back:hover, .btn-logout:hover {
+    background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
+    box-shadow: 0 8px 24px rgba(118,75,162,0.18);
+    color: #fff;
+    text-decoration: none;
+  }
+  .btn-logout {
+    background: #e74c3c;
+    margin-right: 0;
+  }
+  .btn-logout:hover {
+    background: #c0392b;
+  }
+  .btn-group {
+    text-align: center;
+  }
+  /* Сообщения Django messages как строки таблицы */
+  .message-row {
+    border-radius: 1rem;
+    font-weight: 600;
+    user-select: none;
+  }
+  .message-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+  .message-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+  .message-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+  }
+  .message-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+  }
+  .message-row td {
+    padding: 0.75rem 1rem;
+    font-style: italic;
+  }
+</style>
+
+<div class="history-container">
+  <h2>История действий</h2>
+
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Пользователь</th>
+          <th>Время</th>
+          <th>Действие</th>
+          <th>Описание</th>
+        </tr>
+      </thead>
+      <tbody>
+        {# Выводим сообщения в виде строк таблицы #}
+        {% if messages %}
+          {% for message in messages %}
+            <tr class="message-row message-{{ message.tags }}">
+              <td colspan="4">{{ message }}</td>
+            </tr>
+          {% endfor %}
+        {% endif %}
+
+        {# Выводим логи #}
+        {% for log in logs %}
+          <tr>
+            <td>{% if log.user %}{{ log.user.username }}{% else %}Система{% endif %}</td>
+            <td>{{ log.timestamp|date:"d.m.Y H:i:s" }}</td>
+            <td>{{ log.action }}</td>
+            <td>{{ log.description|default:"-" }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="4" class="text-center">Нет истории действий.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Ваши заказы</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Номер заказа</th>
+        <th>Дата</th>
+        <th>Статус</th>
+        <th>Доставка</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+        <tr>
+          <td>{{ order.id }}</td>
+          <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+          <td>{{ order.get_status_display }}</td>
+          <td>
+            {% if order.shipment %}
+              <a href="{% url 'shipment_status' order.id %}">Отследить доставку</a>
+            {% else %}
+              Нет данных о доставке
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4" class="text-center">Заказы отсутствуют.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="btn-group">
+    <a href="{% url 'clients_view' %}" class="btn-back">Назад</a>
+    <a href="{% url 'logout' %}" class="btn-logout">Выйти</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,358 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  /* Общие стили страницы */
+  .product-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(106, 90, 205, 0.15);
+    padding: 2.5rem 3rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #3b3f72;
+  }
+
+  /* Заголовок товара */
+  .product-title {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #6a5acd;
+    margin-bottom: 1rem;
+    user-select: none;
+  }
+
+  /* Основной блок с фото и информацией */
+  .product-main {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  /* Изображение товара */
+  .product-image {
+    flex: 1 1 350px;
+    max-width: 400px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(106, 90, 205, 0.2);
+  }
+  .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+  .product-image img:hover {
+    transform: scale(1.05);
+  }
+
+  /* Информация о товаре */
+  .product-info {
+    flex: 1 1 450px;
+  }
+  .product-description {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #555a99;
+  }
+
+  /* Список характеристик */
+  .product-details {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+  }
+  .product-details li {
+    font-size: 1.05rem;
+    margin-bottom: 0.7rem;
+    color: #4a4a7a;
+  }
+  .product-details li strong {
+    color: #6a5acd;
+    width: 140px;
+    display: inline-block;
+  }
+  .badge-collection {
+    background-color: #b0b8e8;
+    color: #3a3a6e;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.4em 0.75em;
+    border-radius: 0.75rem;
+    user-select: none;
+    margin-right: 0.4rem;
+    margin-bottom: 0.3rem;
+    display: inline-block;
+  }
+
+  /* Цена */
+  .product-price {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #764ba2;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Кнопка добавления в корзину */
+  .btn-add-cart {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    font-weight: 700;
+    border-radius: 50px;
+    padding: 0.7rem 2.5rem;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(118, 75, 162, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .btn-add-cart:hover {
+    background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
+    box-shadow: 0 8px 28px rgba(118, 75, 162, 0.5);
+  }
+
+  /* Форма количества */
+  .quantity-label {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    display: block;
+    color: #5c4db1;
+  }
+  .quantity-input {
+    width: 80px;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    border: 2px solid #7b68ee;
+    font-size: 1rem;
+    color: #3b3f72;
+    transition: border-color 0.3s ease;
+  }
+  .quantity-input:focus {
+    outline: none;
+    border-color: #4b3f8a;
+    box-shadow: 0 0 8px rgba(75, 63, 138, 0.5);
+  }
+
+  /* Секция комментариев */
+  .comment-section {
+    margin-top: 4rem;
+  }
+  .comment-section h3 {
+    font-weight: 700;
+    color: #5c4db1;
+    margin-bottom: 1.5rem;
+    user-select: none;
+  }
+  .comment {
+    background: #f0f4ff;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(118, 75, 162, 0.1);
+  }
+  .comment-header {
+    font-weight: 700;
+    color: #5c4db1;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+  }
+  .comment-date {
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: #7b68ee;
+    margin-left: 1rem;
+  }
+  .comment-text {
+    font-size: 1rem;
+    color: #3b3f72;
+    margin-bottom: 0.5rem;
+    white-space: pre-line;
+  }
+  .like-btn {
+    cursor: pointer;
+    color: #7b68ee;
+    font-weight: 600;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 1rem;
+  }
+  .like-btn.liked {
+    color: #4b3f8a;
+  }
+  .like-count {
+    font-size: 0.9rem;
+  } 
+  /* Форма добавления комментария */
+  .comment-form textarea {
+    border-radius: 8px;
+    border: 2px solid #7b68ee;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    resize: vertical;
+    font-size: 1.1rem;
+    color: #3b3f72;
+    min-height: 80px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .comment-form textarea:focus {
+    outline: none;
+    border-color: #4b3f8a;
+    box-shadow: 0 0 10px rgba(75, 63, 138, 0.6);
+  }
+  .btn-submit-comment {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    font-weight: 700;
+    border-radius: 50px;
+    padding: 0.6rem 2rem;
+    cursor: pointer;
+    margin-top: 0.8rem;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  }
+  .btn-submit-comment:hover {
+    background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
+  }
+
+  /* Адаптив */
+  @media (max-width: 768px) {
+    .product-main {
+      flex-direction: column;
+      align-items: center;
+    }
+    .product-info {
+      width: 100%;
+    }
+    .product-image {
+      max-width: 100%;
+    }
+  }
+</style>
+
+<div class="product-container">
+  <!-- Название товара -->
+  <h1 class="product-title">{{ product.name }}</h1>
+
+  <div class="product-main">
+    <!-- Фото -->
+    <div class="product-image">
+      {% if product.photo %}
+        <img src="{{ product.photo.url }}" alt="{{ product.name }}" loading="lazy" />
+      {% else %}
+        <img src="https://via.placeholder.com/400x400?text=Нет+изображения" alt="Нет изображения" />
+      {% endif %}
+    </div>
+
+    <!-- Информация -->
+    <div class="product-info">
+      <!-- Описание -->
+      <p class="product-description">{{ product.description|default:"Описание отсутствует" }}</p>
+
+      <!-- Характеристики -->
+      <ul class="product-details">
+        <li><strong>Цена:</strong> <span style="color:#764ba2; font-weight: 800; font-size: 1.4rem;">{{ product.price }} ₽</span></li>
+        <li><strong>Цвет:</strong> {{ product.color|default:"Не указан" }}</li>
+        <li><strong>Доступность:</strong>
+          {% if product.is_available %}
+            <span style="color:#28a745; font-weight: 600;">В наличии</span>
+          {% else %}
+            <span style="color:#dc3545; font-weight: 600;">Нет в наличии</span>
+          {% endif %}
+        </li>
+        <li><strong>Категория:</strong>
+          {% if product.category %}
+            {{ product.category.name }}
+          {% else %}
+            <em>Не указана</em>
+          {% endif %}
+        </li>
+        <li><strong>Коллекции:</strong>
+          {% if product.collections.all %}
+            {% for coll in product.collections.all %}
+              <span class="badge-collection">{{ coll.name }}</span>
+            {% empty %}
+              <em>Нет коллекций</em>
+            {% endfor %}
+          {% else %}
+            <em>Нет коллекций</em>
+          {% endif %}
+        </li>
+      </ul>
+
+      <!-- Форма добавления в корзину -->
+      <form method="post" action="{% url 'add_to_cart' product.pk %}">
+        {% csrf_token %}
+        <label for="quantity" class="quantity-label">Количество:</label>
+        <input type="number" id="quantity" name="quantity" value="1" min="1" class="quantity-input" required>
+        <br><br>
+        <button type="submit" class="btn-add-cart">Добавить в корзину</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Секция комментариев -->
+  <div class="comment-section">
+    <h3>Комментарии</h3>
+    {% for item in comments_with_likes %}
+      <div class="comment">
+        <div class="comment-header">
+          {{ item.comment.user.username }}
+          <span class="comment-date">{{ item.comment.created_at|date:"d.m.Y H:i" }}</span>
+        </div>
+        <div class="comment-text">{{ item.comment.text }}</div>
+        <div>
+          <span 
+            class="like-btn {% if item.liked_by_user %}liked{% endif %}" 
+            data-comment-id="{{ item.comment.id }}">
+            &#128077; <span class="like-count">{{ item.likes_count }}</span>
+          </span>
+        </div>
+      </div>
+    {% empty %}
+      <p>Пока нет комментариев. Будьте первым!</p>
+    {% endfor %}
+  </div>
+
+  <!-- Форма добавления комментария -->
+  <div class="comment-form mt-4">
+    <form method="post" action="">
+      {% csrf_token %}
+      {{ form.text }}
+      <button type="submit" class="btn-submit-comment mt-2">Отправить</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Скрипт лайков комментариев
+  document.querySelectorAll('.like-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const commentId = this.dataset.commentId;
+      fetch("{% url 'like_comment' 0 %}".replace('0', commentId), {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        credentials: 'same-origin',
+      })
+      .then(response => response.json())
+      .then(data => {
+        if(data.liked){
+          this.classList.add('liked');
+        } else {
+          this.classList.remove('liked');
+        }
+        this.querySelector('.like-count').textContent = data.likes_count;
+      });
+    });
+  });
+</script>
+{% endblock %}

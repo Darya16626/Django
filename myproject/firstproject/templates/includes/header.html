@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'home' %}">Магазин Антистрессов</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Переключатель навигации">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="{% url 'client_product_list' %}">Каталог</a></li>
+          {% if user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'clients_view' %}">Личный кабинет</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Выйти</a></li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Войти</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Регистрация</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>

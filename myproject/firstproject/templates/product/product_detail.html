@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ product.name }} - Магазин Антистрессов</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #d9e8ff 0%, #b0c7ff 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #4b4b7a;
+      margin: 0;
+      padding-bottom: 3rem;
+    }
+    nav.navbar {
+      background-color: #6a5acd;
+      box-shadow: 0 3px 10px rgba(106, 90, 205, 0.4);
+    }
+    nav.navbar .navbar-brand {
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: #e0e6ff;
+      letter-spacing: 1.2px;
+      user-select: none;
+    }
+    nav.navbar .btn-outline-light {
+      border-color: #e0e6ff;
+      color: #e0e6ff;
+      font-weight: 600;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    nav.navbar .btn-outline-light:hover {
+      background-color: #e0e6ff;
+      color: #6a5acd;
+    }
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: #f9fbff;
+      border-radius: 1.5rem;
+      box-shadow: 0 12px 35px rgba(106, 90, 205, 0.15);
+      padding: 3rem 3rem 3.5rem;
+    }
+    .card-title {
+      color: #6a5acd;
+      font-weight: 800;
+      font-size: 2.6rem;
+      margin-bottom: 1.2rem;
+      user-select: none;
+    }
+    .card-text {
+      font-size: 1.2rem;
+      color: #5a5fbb;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    .list-group-item {
+      font-size: 1.05rem;
+      border: none;
+      padding-left: 0;
+      padding-right: 0;
+      color: #4a4a7a;
+    }
+    .list-group-item strong {
+      color: #6a5acd;
+    }
+    .badge-secondary {
+      background-color: #b0b8e8;
+      color: #3a3a6e;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.4em 0.75em;
+      border-radius: 0.75rem;
+      user-select: none;
+    }
+    .btn-warning {
+      background-color: #7b68ee;
+      border: none;
+      font-weight: 600;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 5px 15px rgba(123, 104, 238, 0.3);
+      color: #fff;
+      border-radius: 50px;
+      padding: 0.55rem 1.8rem;
+    }
+    .btn-warning:hover {
+      background-color: #5a4d9f;
+      box-shadow: 0 7px 22px rgba(90, 77, 159, 0.5);
+      color: #fff;
+    }
+    .btn-danger {
+      background-color: #6a5acd;
+      border: none;
+      font-weight: 600;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 5px 15px rgba(106, 90, 205, 0.3);
+      color: #fff;
+      border-radius: 50px;
+      padding: 0.55rem 1.8rem;
+    }
+    .btn-danger:hover {
+      background-color: #4b3f8a;
+      box-shadow: 0 7px 22px rgba(75, 63, 138, 0.5);
+      color: #fff;
+    }
+    .btn-secondary {
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      border-radius: 50px;
+      padding: 0.55rem 1.8rem;
+      color: #6a5acd;
+      border: 2px solid #6a5acd;
+      background-color: transparent;
+    }
+    .btn-secondary:hover {
+      background-color: #6a5acd;
+      color: #fff;
+      text-decoration: none;
+    }
+    img.rounded-start {
+      border-radius: 1.5rem 0 0 1.5rem;
+      object-fit: cover;
+      max-height: 420px;
+      width: 100%;
+      box-shadow: 0 4px 20px rgba(106, 90, 205, 0.15);
+    }
+    @media (max-width: 767px) {
+      .card-title {
+        font-size: 2rem;
+      }
+      .container {
+        padding: 2rem 1.5rem 2.5rem;
+        margin: 1rem;
+      }
+      img.rounded-start {
+        border-radius: 1.5rem 1.5rem 0 0;
+        max-height: none;
+      }
+      .row.g-0 {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'product_list' %}">Магазин Антистрессов</a>
+      <div>
+        <a href="{% url 'product_list' %}" class="btn btn-outline-light me-2">Каталог</a>
+        <a href="{% url 'product_create' %}" class="btn btn-outline-light">Добавить товар</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="card shadow-sm mb-5">
+      <div class="row g-0">
+        <div class="col-md-5">
+          {% if product.photo %}
+            <img src="{{ product.photo.url }}" class="img-fluid rounded-start" alt="{{ product.name }}">
+          {% else %}
+            <img src="https://via.placeholder.com/500x400?text=Нет+изображения" class="img-fluid rounded-start" alt="Нет изображения">
+          {% endif %}
+        </div>
+        <div class="col-md-7">
+          <div class="card-body">
+            <h1 class="card-title">{{ product.name }}</h1>
+            <p class="card-text">{{ product.description|default:"Описание отсутствует" }}</p>
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item"><strong>Цена:</strong> <span class="text-purple fs-4">{{ product.price }} ₽</span></li>
+              <li class="list-group-item"><strong>Цвет:</strong> {{ product.color }}</li>
+              <li class="list-group-item"><strong>Доступность:</strong> {% if product.is_available %}<span class="text-success">В наличии</span>{% else %}<span class="text-danger">Нет в наличии</span>{% endif %}</li>
+              <li class="list-group-item"><strong>Категория:</strong> {% if product.category %}{{ product.category.name }}{% else %}<em>Не указана</em>{% endif %}</li>
+              <li class="list-group-item"><strong>Коллекции:</strong>
+                {% if product.collections.all %}
+                  {% for coll in product.collections.all %}
+                    <span class="badge badge-secondary me-1">{{ coll.name }}</span>
+                  {% empty %}
+                    <em>Нет коллекций</em>
+                  {% endfor %}
+                {% else %}
+                  <em>Нет коллекций</em>
+                {% endif %}
+              </li>
+            </ul>
+            <div>
+              <a href="{% url 'product_update' product.pk %}" class="btn btn-warning me-2">Редактировать</a>
+              <a href="{% url 'product_delete' product.pk %}" class="btn btn-danger me-2">Удалить</a>
+              <a href="{% url 'product_list' %}" class="btn btn-secondary">Вернуться к списку</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer style="color:#6a5acd; text-align:center; padding:1rem 0; user-select:none;">
+    &copy; 2025 Магазин Антистрессов. Все права защищены.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, #dbe9ff 0%, #c3cfe2 100%);
+    color: #3b3f72;
+  }
+  .table thead th {
+    border-bottom: 2px solid #7b68ee;
+    color: #5c4db1;
+    font-weight: 700;
+  }
+  .table tbody tr:hover {
+    background-color: #e6e9ff;
+  }
+  .btn-outline-primary {
+    color: #7b68ee;
+    border-color: #7b68ee;
+  }
+  .btn-outline-primary:hover {
+    background-color: #7b68ee;
+    color: white;
+  }
+  .btn-outline-danger {
+    color: #a678ff;
+    border-color: #a678ff;
+  }
+  .btn-outline-danger:hover {
+    background-color: #a678ff;
+    color: white;
+  }
+  .btn-primary {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    font-weight: 700;
+    border-radius: 50px;
+    padding: 0.6rem 1.5rem;
+    box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
+    transition: background-color 0.3s ease;
+  }
+  .btn-primary:hover {
+    background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
+  }
+  .btn-secondary {
+    border-radius: 50px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    color: #5c4db1;
+    border: 2px solid #7b68ee;
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .btn-secondary:hover {
+    background-color: #7b68ee;
+    color: white;
+  }
+</style>
+
+<div class="container mt-5">
+  <h1 class="mb-4" style="color:#5c4db1;">Ваша корзина</h1>
+  {% if items %}
+  <table class="table align-middle shadow-sm rounded bg-white">
+    <thead>
+      <tr>
+        <th>Товар</th>
+        <th>Цена</th>
+        <th style="width: 130px;">Количество</th>
+        <th>Сумма</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td>{{ item.product.name }}</td>
+        <td>{{ item.product.price|floatformat:2 }} ₽</td>
+        <td>
+          <form method="post" action="{% url 'update_quantity' item.id %}" class="d-flex">
+            {% csrf_token %}
+            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control me-2" style="max-width: 70px;">
+            <button type="submit" class="btn btn-sm btn-outline-primary">Обновить</button>
+          </form>
+        </td>
+        <td>{{ item.get_cost|floatformat:2 }} ₽</td>
+        <td>
+          <form method="post" action="{% url 'remove_from_cart' item.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td colspan="3" class="text-end fw-bold" style="color:#5c4db1;">Итого:</td>
+        <td class="fw-bold">{{ total|floatformat:2 }} ₽</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="mt-4 d-flex justify-content-between">
+    <a href="{% url 'client_product_list' %}" class="btn btn-secondary">Продолжить покупки</a>
+    <a href="{% url 'checkout' %}" class="btn btn-primary">Оформить заказ</a>
+  </div>
+  {% else %}
+  <p class="text-center fs-5 mt-5" style="color:#7b68ee;">Ваша корзина пуста.</p>
+  <div class="text-center mt-3">
+    <a href="{% url 'client_product_list' %}" class="btn btn-primary">Перейти в каталог</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,53 +1,93 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Магазин Антистресса - Информация</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            background: white;
-            padding: 40px 60px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            max-width: 600px;
-            text-align: center;
-        }
-        h1 {
-            font-size: 2.8rem;
-            color: #ff6f91;
-            margin-bottom: 20px;
-            font-weight: 700;
-            text-shadow: 1px 1px 4px rgba(255,111,145,0.4);
-        }
-        p {
-            font-size: 1.15rem;
-            line-height: 1.6;
-            color: #555;
-        }
-        .highlight {
-            color: #ff6f91;
-            font-weight: 600;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Добро пожаловать - Магазин Антистрессов (Админ)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #c3cfe2 0%, #a1c4fd 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #3a3a6e;
+      margin: 0;
+      flex-direction: column;
+      padding: 2rem;
+    }
+    .admin-card {
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+      padding: 3rem 2.5rem 2.5rem 2.5rem;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      animation: fadeIn 1s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(30px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    .admin-title {
+      font-weight: 700;
+      font-size: 2.4rem;
+      letter-spacing: 1px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1.2rem;
+    }
+    .admin-text {
+      font-size: 1.15rem;
+      color: #5a5fbb;
+      margin-bottom: 2rem;
+      line-height: 1.4;
+    }
+    .btn-catalog {
+      font-size: 1.1rem;
+      padding: 0.7rem 2.2rem;
+      border-radius: 2rem;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 4px 14px 0 rgba(118, 75, 162, 0.10);
+      transition: background 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-catalog:hover {
+      background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
+      box-shadow: 0 8px 24px 0 rgba(118, 75, 162, 0.18);
+      color: #fff;
+    }
+    footer {
+      margin-top: 2rem;
+      color: #aab3d6;
+      font-size: 1rem;
+      text-align: center;
+      letter-spacing: 0.5px;
+      user-select: none;
+    }
+    @media (max-width: 600px) {
+      .admin-card {
+        padding: 2rem 1rem 1.5rem 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Магазин Антистресса</h1>
-        <p>Добро пожаловать в наш <span class="highlight">магазин антистресса</span> — место, где вы можете найти лучшие товары для расслабления и восстановления внутреннего баланса.</p>
-        <p>Мы предлагаем широкий ассортимент: от мягких игрушек и массажеров до ароматических свечей и медитационных аксессуаров. Наши продукты помогут вам снять напряжение и подарят минуты спокойствия в суете повседневной жизни.</p>
-        <p>Заботьтесь о себе — и пусть стресс останется позади!</p>
-    </div>
+  <div class="admin-card">
+    <h1 class="admin-title">Страница админа. Добро пожаловать в Магазин Антистрессов!</h1>
+    <p class="admin-text">Лучшие антистрессовые товары для вашего комфорта и релаксации.</p>
+    <a href="{% url 'product_list' %}" class="btn-catalog">Перейти в каталог товаров</a>
+    <footer>&copy; 2025 Магазин Антистрессов. Все права защищены.</footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
